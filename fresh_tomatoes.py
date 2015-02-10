@@ -13,11 +13,12 @@ main_page_head = '''
 
   <!-- FlexSlider vs Kwiks credit: http://webcodebuilder.com/responsive-jquery-plugin-flexslider-feat-kwiks/-->
   
-  <!-- FlexSlider pieces -->
+  <!-- FlexSlider & Movie Stuff pieces -->
   <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/magnific-popup.css"> 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="js/jquery.flexslider-min.js"></script>
-
+  <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/css3-mediaqueries.js"></script>
   
   <!-- Kwiks pieces -->
@@ -75,32 +76,11 @@ main_page_head = '''
       this.init();
     }
   </script>
-  <!-- Movie iFrame Stuff -->
-  <script type="text/javascript" charset="utf-8">
-        // Pause the video when the modal is closed
-        $(document).on('click', '.hanging-close, .modal-backdrop, .modal', function (event) {
-            // Remove the src so the player itself gets removed, as this is the only
-            // reliable way to ensure the video stops playing in IE
-            $("#trailer-video-container").empty();
-        });
-        // Start playing the video whenever the trailer modal is opened
-        $(document).on('click', '.movie-tile', function (event) {
-            var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
-            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
-            $("#trailer-video-container").empty().append($("<iframe></iframe>", {
-              'id': 'trailer-video',
-              'type': 'text-html',
-              'src': sourceUrl,
-              'frameborder': 0
-            }));
-        });
-        // Animate in the movies when the page loads
-        $(document).ready(function () {
-          $('.movie-tile').hide().first().show("fast", function showNext() {
-            $(this).next("div").show("fast", showNext);
-          });
-        });
-    </script>
+  <script type="text/javascript">
+    $('.test-popup-link').magnificPopup({ 
+      type: 'iframe'      
+    });
+  </script>
 </head>
 '''
 
@@ -121,7 +101,7 @@ main_page_content = '''
     </div>
   </div>
   <span id="responsiveFlag"></span>
-</body>
+</body>  
 </html>
 '''
 
@@ -130,9 +110,9 @@ movie_tile_content = '''
         <li>
           <img src="{poster_image_url}" />
           <div class="flex-caption">
-            <div class="movie-tile" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
+            <div class="movie-tile">
             <h3>{movie_title}</h3>            
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
+            <p><a class="test-popup-link" href="{trailer_youtube_url}">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
             </div>
           </div>
         </li>
@@ -146,12 +126,14 @@ def create_movie_tiles_content(movies):
         youtube_id_match = re.search(r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
         youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
         trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
+        trailer_youtube_url = movie.trailer_youtube_url
 
         # Append the tile for the movie with its content filled in
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
+            trailer_youtube_id=trailer_youtube_id,
+            trailer_youtube_url=trailer_youtube_url
         )
     return content
 
