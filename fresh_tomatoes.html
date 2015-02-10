@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Fresh Tomatoes!</title>
+
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $('#myCarousel').carousel({
+      interval: 4000
+    })
+
+    $('.carousel .item').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+      }
+      next.children(':first-child').clone().appendTo($(this));
+      
+      for (var i=0;i<2;i++) {
+        next=next.next();
+        if (!next.length) {
+          next = $(this).siblings(':first');
+        }
+        
+        next.children(':first-child').clone().appendTo($(this));
+      }
+    });
+  </script>
+  <script src="movies-modal.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+<div class="row-fluid">
+<div class="span12">
+
+    <div class="page-header">
+        <h3>Fresh Tomatoes! Movie Trailers</h3>
+        <p>Some of my Favorite Movies</p>
+    </div>
+        
+    <div class="carousel slide" id="myCarousel">
+        <div class="carousel-inner">
+              <div class="item active"> 
+                    <div class="col-xs-3">
+                              <div class="thumbnail movie-tile" data-trailer-youtube-id="VkX7dHjL-aY" data-toggle="modal" data-target="#trailer">
+                                  <a href="#"><img src="http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg" alt=""></a>
+                              </div>
+                              <div class="caption">
+                                  <h4>Blah</h4>
+                          <p>Nullam Condimentum Nibh Etiam Sem</p>
+                                  <a class="btn btn-mini" href="#">-- Read More</a>
+                              </div>                            
+                    </div>
+              </div>
+
+              
+
+ <div class="item"> 
+    <div class="col-xs-3">
+      <div class="thumbnail movie-tile" data-trailer-youtube-id="0vxOhd4qlnA" data-toggle="modal" data-target="#trailer" style="display:block;">
+          <a href="#"><img src="http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg" alt=""></a>
+      </div>
+      <div class="caption">
+          <h4>Interstellar</h4>
+  <p>Nullam Condimentum Nibh Etiam Sem</p>
+          <a class="btn btn-mini" href="#">-- Read More</a>
+      </div>
+    </div>
+</div>
+
+
+
+
+ <div class="item"> 
+    <div class="col-xs-3">
+      <div class="thumbnail movie-tile" data-trailer-youtube-id="VkX7dHjL-aY" data-toggle="modal" data-target="#trailer" style="display:block;">
+          <a href="#"><img src="http://i.kinja-img.com/gawker-media/image/upload/s--gz-ivJhU--/775126109255191106.jpg" alt=""></a>
+      </div>
+      <div class="caption">
+          <h4>The Fifth Element</h4>
+  <p>Nullam Condimentum Nibh Etiam Sem</p>
+          <a class="btn btn-mini" href="#">-- Read More</a>
+      </div>
+    </div>
+</div>
+
+
+
+
+ <div class="item"> 
+    <div class="col-xs-3">
+      <div class="thumbnail movie-tile" data-trailer-youtube-id="4lW0F1sccqk" data-toggle="modal" data-target="#trailer" style="display:block;">
+          <a href="#"><img src="http://www.impawards.com/1982/posters/blade_runner_xlg.jpg" alt=""></a>
+      </div>
+      <div class="caption">
+          <h4>Blade Runner</h4>
+  <p>Nullam Condimentum Nibh Etiam Sem</p>
+          <a class="btn btn-mini" href="#">-- Read More</a>
+      </div>
+    </div>
+</div>
+
+
+
+
+ <div class="item"> 
+    <div class="col-xs-3">
+      <div class="thumbnail movie-tile" data-trailer-youtube-id="ZppWok6SX88" data-toggle="modal" data-target="#trailer" style="display:block;">
+          <a href="#"><img src="http://www.impawards.com/1997/posters/gattaca_ver1.jpg" alt=""></a>
+      </div>
+      <div class="caption">
+          <h4>Gattaca</h4>
+  <p>Nullam Condimentum Nibh Etiam Sem</p>
+          <a class="btn btn-mini" href="#">-- Read More</a>
+      </div>
+    </div>
+</div>
+
+
+
+
+ <div class="item"> 
+    <div class="col-xs-3">
+      <div class="thumbnail movie-tile" data-trailer-youtube-id="SRoj3jK37Vc" data-toggle="modal" data-target="#trailer" style="display:block;">
+          <a href="#"><img src="http://www.optionated.com/wp-content/uploads/2011/11/Contact-movie-poster.jpg" alt=""></a>
+      </div>
+      <div class="caption">
+          <h4>Contact</h4>
+  <p>Nullam Condimentum Nibh Etiam Sem</p>
+          <a class="btn btn-mini" href="#">-- Read More</a>
+      </div>
+    </div>
+</div>
+
+
+
+
+ <div class="item"> 
+    <div class="col-xs-3">
+      <div class="thumbnail movie-tile" data-trailer-youtube-id="JY3u7bB7dZk" data-toggle="modal" data-target="#trailer" style="display:block;">
+          <a href="#"><img src="http://www.impawards.com/2005/posters/serenity_ver2_xlg.jpg" alt=""></a>
+      </div>
+      <div class="caption">
+          <h4>Serenity</h4>
+  <p>Nullam Condimentum Nibh Etiam Sem</p>
+          <a class="btn btn-mini" href="#">-- Read More</a>
+      </div>
+    </div>
+</div>
+
+
+
+
+        </div>
+
+        <div class="control-box">                            
+          <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+          <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+        </div><!-- /.control-box -->
+
+    </div><!-- /#myCarousel -->
+        
+</div><!-- /.span12 -->          
+</div><!-- /.row --> 
+</div><!-- /.container -->
+
+  <!-- Trailer Video Modal -->
+  <div class="modal" id="trailer">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
+          <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
+        </a>
+        <div class="scale-media" id="trailer-video-container">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
