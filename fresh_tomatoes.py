@@ -5,123 +5,109 @@ import re
 # Styles and scripting for the page
 main_page_head = '''
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+  <meta content="charset=utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Josh's Favorite Films</title>
 
-  <meta charset="UTF-8">
+  <!-- FlexSlider vs Kwiks credit: http://webcodebuilder.com/responsive-jquery-plugin-flexslider-feat-kwiks/-->
+  
+  <!-- FlexSlider pieces -->
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="js/jquery.flexslider-min.js"></script>
 
-  <title>Fresh Tomatoes!</title>
-
-  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
-  <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
-
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="js/css3-mediaqueries.js"></script>
+  
+  <!-- Kwiks pieces -->
+  <script src="js/kwiks.js"></script>
+  
+  <!-- Includes for this default -->
+  <link rel="stylesheet" href="css/default.css" type="text/css" media="screen" />
+  
+  <!-- Hook up the FlexSlider -->
   <script type="text/javascript">
-    $('#myCarousel').carousel({
-      interval: 4000
-    })
+    var Main = Main || {};
 
-    $('.carousel .item').each(function(){
-      var next = $(this).next();
-      if (!next.length) {
-        next = $(this).siblings(':first');
-      }
-      next.children(':first-child').clone().appendTo($(this));
+    jQuery(window).load(function() {
+      window.responsiveFlag = jQuery('#responsiveFlag').css('display');
+      Main.gallery = new Gallery();
       
-      for (var i=0;i<2;i++) {
-        next=next.next();
-        if (!next.length) {
-          next = $(this).siblings(':first');
-        }
-        
-        next.children(':first-child').clone().appendTo($(this));
-      }
+      jQuery(window).resize(function() {
+        Main.gallery.update();
+      });
     });
-  </script>
-  <script src="movies-modal.js" type="text/javascript"></script>
 
+    function Gallery(){
+      var self = this,
+        container = jQuery('.flexslider'),
+        clone = container.clone( false );
+        
+      this.init = function (){
+        if( responsiveFlag == 'block' ){
+          var slides = container.find('.slides');
+          
+          slides.kwicks({
+            max : 400,
+            spacing : 0
+          }).find('li > a').click(function (){
+            return false;
+          });
+        } else {
+          container.flexslider();
+        }
+      }
+      this.update = function () {
+        var currentState = jQuery('#responsiveFlag').css('display');
+        
+        if(responsiveFlag != currentState) {
+        
+          responsiveFlag = currentState;
+          container.replaceWith(clone);
+          container = clone;
+          clone = container.clone( false );
+          
+          this.init();  
+        }
+      }
+      
+      this.init();
+    }
+  </script>
 </head>
 '''
 
 # The main page layout and title bar
 main_page_content = '''
 <body>
-
-<div class="container-fluid">
-<div class="row-fluid">
-<div class="span12">
-
-    <div class="page-header">
-        <h3>Fresh Tomatoes! Movie Trailers</h3>
-        <p>Some of my Favorite Movies</p>
-    </div>
-        
-    <div class="carousel slide" id="myCarousel">
-        <div class="carousel-inner">
-              <div class="item active"> 
-                    <div class="col-xs-3">
-                              <div class="thumbnail movie-tile" data-trailer-youtube-id="VkX7dHjL-aY" data-toggle="modal" data-target="#trailer">
-                                  <a href="#"><img src="http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg" alt=""></a>
-                              </div>
-                              <div class="caption">
-                                  <h4>Blah</h4>
-                          <p>Nullam Condimentum Nibh Etiam Sem</p>
-                                  <a class="btn btn-mini" href="#">-- Read More</a>
-                              </div>                            
-                    </div>
-              </div>
-
-              {movie_tiles}
-
-        </div>
-
-        <div class="control-box">                            
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-          <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-        </div><!-- /.control-box -->
-
-    </div><!-- /#myCarousel -->
-        
-</div><!-- /.span12 -->          
-</div><!-- /.row --> 
-</div><!-- /.container -->
-
-  <!-- Trailer Video Modal -->
-  <div class="modal" id="trailer">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
-          <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
-        </a>
-        <div class="scale-media" id="trailer-video-container">
-        </div>
-      </div>
+  <noscript>    
+    <div class="nojs">Javascript must be enabled for the correct page display.</div>
+  </noscript>
+  <div id="container">
+    <h2>Josh's Favorite Films</h2>
+    
+    <div class="flexslider">
+      <ul class="slides">
+        <!-- Creates the list of movies, displays them in the slider -->
+        {movie_tiles}
+      </ul>
     </div>
   </div>
-
+  <span id="responsiveFlag"></span>
 </body>
-
 </html>
 '''
 
 # A single movie entry html template
 movie_tile_content = '''
-
- <div class="item"> 
-    <div class="col-xs-3">
-      <div class="thumbnail movie-tile" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer" style="display:block;">
-          <a href="#"><img src="{poster_image_url}" alt=""></a>
-      </div>
-      <div class="caption">
-          <h4>{movie_title}</h4>
-  <p>Nullam Condimentum Nibh Etiam Sem</p>
-          <a class="btn btn-mini" href="#">-- Read More</a>
-      </div>
-    </div>
-</div>
-
-
+        <li>
+          <img src="{poster_image_url}" />
+          <div class="flex-caption">
+            <h3>{movie_title}</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
+          </div>
+        </li>
 '''
 
 def create_movie_tiles_content(movies):
