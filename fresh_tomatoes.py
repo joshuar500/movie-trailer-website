@@ -11,22 +11,29 @@ main_page_head = '''
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Josh's Favorite Films</title>
 
+  <!-- NOTES: -->
+  <!-- background in default.css must be changed to local file -->
+  <!-- unless in server environment for picture to show up -->
+
   <!-- FlexSlider vs Kwiks credit: http://webcodebuilder.com/responsive-jquery-plugin-flexslider-feat-kwiks/-->
   
   <!-- FlexSlider & Movie Stuff pieces -->
   <link rel="stylesheet" href="css/style.css" type="text/css" />
-  <link rel="stylesheet" href="css/magnific-popup.css"> 
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link href="css/jquery-ui.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="js/jquery.flexslider-min.js"></script>
   <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/css3-mediaqueries.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
   
   <!-- Kwiks pieces -->
-  <script src="js/kwiks.js"></script>
+  <script src="js/kwiks.js"></script>  
   
   <!-- Includes for this default -->
   <link rel="stylesheet" href="css/default.css" type="text/css" media="screen" />
-  
+
+
   <!-- Hook up the FlexSlider -->
   <script type="text/javascript">
     var Main = Main || {};
@@ -76,10 +83,47 @@ main_page_head = '''
       this.init();
     }
   </script>
+
   <script type="text/javascript">
-    $('.test-popup-link').magnificPopup({ 
-      type: 'iframe'      
+    $(document).ready(function() {
+
+      $.extend(true, $.magnificPopup.defaults, {  
+        iframe: {
+            patterns: {
+               youtube: {
+                  index: 'youtube.com/', 
+                  id: 'v=', 
+                  src: 'https://www.youtube.com/embed/%id%?autoplay=1' 
+              }
+            }
+        }
+      });
+
+      $('.vidtrailer').magnificPopup({ 
+        type: 'iframe',
+        disableOn: 700,
+        iframe: {
+           markup: '<div class="mfp-iframe-scaler">'+
+                      '<div class="mfp-close"></div>'+
+                      '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
+                      '<div class="mfp-title">Get the freaking caption</div>'+
+                    '</div>'
+        },
+        removeDelay: 160,
+        mainClass: 'mfp-fade',
+        preloader: false,
+        callbacks: {
+          markupParse: function(template, values, item) {
+           values.title = item.el.attr('vidtrailer');     
+          }
+        }    
+        
+      });
     });
+
+     $(function() {
+      $( document ).tooltip();
+    }); 
   </script>
 </head>
 '''
@@ -99,21 +143,22 @@ main_page_content = '''
         {movie_tiles}
       </ul>
     </div>
+
+    <div id="footy">&copy; Josh Rincon. Made with love and beer.</div>
+
   </div>
-  <span id="responsiveFlag"></span>
+  <span id="responsiveFlag"></span>  
 </body>  
 </html>
 '''
 
 # A single movie entry html template
 movie_tile_content = '''
-        <li>
+        <li class="movie-tile">
           <img src="{poster_image_url}" />
-          <div class="flex-caption">
-            <div class="movie-tile">
+          <div class="flex-caption">            
             <h3>{movie_title}</h3>            
-            <p><a class="test-popup-link" href="{trailer_youtube_url}">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
-            </div>
+            <p class="josh-caption-fix"><a class="vidtrailer" href="{trailer_youtube_url}" title="{movie_desc}">Watch Trailer</a></p>
           </div>
         </li>
 '''
@@ -127,13 +172,15 @@ def create_movie_tiles_content(movies):
         youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
         trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
         trailer_youtube_url = movie.trailer_youtube_url
+        movie_desc = movie.storyline        
 
         # Append the tile for the movie with its content filled in
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
             trailer_youtube_id=trailer_youtube_id,
-            trailer_youtube_url=trailer_youtube_url
+            trailer_youtube_url=trailer_youtube_url,
+            movie_desc=movie_desc
         )
     return content
 

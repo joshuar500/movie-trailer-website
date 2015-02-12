@@ -6,22 +6,29 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Josh's Favorite Films</title>
 
+  <!-- NOTES: -->
+  <!-- background in default.css must be changed to local file -->
+  <!-- unless in server environment for picture to show up -->
+
   <!-- FlexSlider vs Kwiks credit: http://webcodebuilder.com/responsive-jquery-plugin-flexslider-feat-kwiks/-->
   
   <!-- FlexSlider & Movie Stuff pieces -->
   <link rel="stylesheet" href="css/style.css" type="text/css" />
-  <link rel="stylesheet" href="css/magnific-popup.css"> 
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link href="css/jquery-ui.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="js/jquery.flexslider-min.js"></script>
   <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/css3-mediaqueries.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
   
   <!-- Kwiks pieces -->
-  <script src="js/kwiks.js"></script>
+  <script src="js/kwiks.js"></script>  
   
   <!-- Includes for this default -->
   <link rel="stylesheet" href="css/default.css" type="text/css" media="screen" />
-  
+
+
   <!-- Hook up the FlexSlider -->
   <script type="text/javascript">
     var Main = Main || {};
@@ -71,10 +78,47 @@
       this.init();
     }
   </script>
+
   <script type="text/javascript">
-    $('.test-popup-link').magnificPopup({ 
-      type: 'iframe'      
+    $(document).ready(function() {
+
+      $.extend(true, $.magnificPopup.defaults, {  
+        iframe: {
+            patterns: {
+               youtube: {
+                  index: 'youtube.com/', 
+                  id: 'v=', 
+                  src: 'https://www.youtube.com/embed/%id%?autoplay=1' 
+              }
+            }
+        }
+      });
+
+      $('.vidtrailer').magnificPopup({ 
+        type: 'iframe',
+        disableOn: 700,
+        iframe: {
+           markup: '<div class="mfp-iframe-scaler">'+
+                      '<div class="mfp-close"></div>'+
+                      '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
+                      '<div class="mfp-title">Get the freaking caption</div>'+
+                    '</div>'
+        },
+        removeDelay: 160,
+        mainClass: 'mfp-fade',
+        preloader: false,
+        callbacks: {
+          markupParse: function(template, values, item) {
+           values.title = item.el.attr('vidtrailer');     
+          }
+        }    
+        
+      });
     });
+
+     $(function() {
+      $( document ).tooltip();
+    }); 
   </script>
 </head>
 
@@ -89,69 +133,60 @@
       <ul class="slides">
         <!-- Creates the list of movies, displays them in the slider -->
         
-        <li>
+        <li class="movie-tile">
           <img src="http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg" />
-          <div class="flex-caption">
-            <div class="movie-tile">
+          <div class="flex-caption">            
             <h3>Interstellar</h3>            
-            <p><a class="test-popup-link" href="https://www.youtube.com/watch?v=0vxOhd4qlnA">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
-            </div>
+            <p class="josh-caption-fix"><a class="vidtrailer" href="https://www.youtube.com/watch?v=0vxOhd4qlnA" title="In the near future, Earth has been devastated by drought and famine, causing a scarcity in food and extreme changes in climate. When humanity is facing extinction, a mysterious rip in the space-time continuum is discovered, giving mankind the opportunity to widen its lifespan. A group of explorers must travel beyond our solar system in search of a planet that can sustain life. The crew of the Endurance are required to think bigger and go further than any human in history as they embark on an interstellar voyage into the unknown. Coop, the pilot of the Endurance, must decide between seeing his children again and the future of the human race.">Watch Trailer</a></p>
           </div>
         </li>
 
-        <li>
+        <li class="movie-tile">
           <img src="http://i.kinja-img.com/gawker-media/image/upload/s--gz-ivJhU--/775126109255191106.jpg" />
-          <div class="flex-caption">
-            <div class="movie-tile">
+          <div class="flex-caption">            
             <h3>The Fifth Element</h3>            
-            <p><a class="test-popup-link" href="https://www.youtube.com/watch?v=VkX7dHjL-aY">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
-            </div>
+            <p class="josh-caption-fix"><a class="vidtrailer" href="https://www.youtube.com/watch?v=VkX7dHjL-aY" title="Two hundred and fifty years in the future, life as we know it is threatened by the arrival of Evil. Only the Fifth Element can stop the Evil from extinguishing life, as it tries to do every five thousand years. She is assisted by a former elite commando turned cab driver, Korben Dallas, who is, in turn, helped by Prince/Arsenio clone, Ruby Rhod. Unfortunately, Evil is being assisted by Mr. Zorg, who seeks to profit from the chaos that Evil will bring, and his alien mercenaries.">Watch Trailer</a></p>
           </div>
         </li>
 
-        <li>
+        <li class="movie-tile">
           <img src="http://www.impawards.com/1982/posters/blade_runner_xlg.jpg" />
-          <div class="flex-caption">
-            <div class="movie-tile">
+          <div class="flex-caption">            
             <h3>Blade Runner</h3>            
-            <p><a class="test-popup-link" href="https://www.youtube.com/watch?v=4lW0F1sccqk">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
-            </div>
+            <p class="josh-caption-fix"><a class="vidtrailer" href="https://www.youtube.com/watch?v=4lW0F1sccqk" title="In a cyberpunk vision of the future, man has developed the technology to create replicants, human clones used to serve in the colonies outside Earth but with fixed lifespans. In Los Angeles, 2019, Deckard is a Blade Runner, a cop who specializes in terminating replicants. Originally in retirement, he is forced to re-enter the force when four replicants escape from an off-world colony to Earth.">Watch Trailer</a></p>
           </div>
         </li>
 
-        <li>
+        <li class="movie-tile">
           <img src="http://www.impawards.com/1997/posters/gattaca_ver1.jpg" />
-          <div class="flex-caption">
-            <div class="movie-tile">
+          <div class="flex-caption">            
             <h3>Gattaca</h3>            
-            <p><a class="test-popup-link" href="https://www.youtube.com/watch?v=ZppWok6SX88">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
-            </div>
+            <p class="josh-caption-fix"><a class="vidtrailer" href="https://www.youtube.com/watch?v=ZppWok6SX88" title="In the not-too-distant future, a less-than-perfect man wants to travel to the stars. Society has categorized Vincent Freeman as less than suitable given his genetic make-up and he has become one of the underclass of humans that are only useful for menial jobs. To move ahead, he assumes the identity of Jerome Morrow, a perfect genetic specimen who is a paraplegic as a result of a car accident. With professional advice, Vincent learns to deceive DNA and urine sample testing. Just when he is finally scheduled for a space mission, his program director is killed and the police begin an investigation, jeopardizing his secret.">Watch Trailer</a></p>
           </div>
         </li>
 
-        <li>
+        <li class="movie-tile">
           <img src="http://www.optionated.com/wp-content/uploads/2011/11/Contact-movie-poster.jpg" />
-          <div class="flex-caption">
-            <div class="movie-tile">
+          <div class="flex-caption">            
             <h3>Contact</h3>            
-            <p><a class="test-popup-link" href="https://www.youtube.com/watch?v=SRoj3jK37Vc">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
-            </div>
+            <p class="josh-caption-fix"><a class="vidtrailer" href="https://www.youtube.com/watch?v=SRoj3jK37Vc" title="Contact is the story of a free thinking radio astronomer who discovers an intelligent signal broadcast from deep space. She and her fellow scientists are able to decipher the Message and discover detailed instructions for building a mysterious Machine. Will the Machine spell the end of our world, or the end of our superstitions? Will we take our place among the races of the Galaxy, or are we just an upstart species with a long way to go?">Watch Trailer</a></p>
           </div>
         </li>
 
-        <li>
+        <li class="movie-tile">
           <img src="http://www.impawards.com/2005/posters/serenity_ver2_xlg.jpg" />
-          <div class="flex-caption">
-            <div class="movie-tile">
+          <div class="flex-caption">            
             <h3>Serenity</h3>            
-            <p><a class="test-popup-link" href="https://www.youtube.com/watch?v=JY3u7bB7dZk">watch trailer</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis porttitor massa eget pretium. Mauris vel erat sem, id tempor est. Pellentesque lobortis iaculis massa quis auctor.</p>
-            </div>
+            <p class="josh-caption-fix"><a class="vidtrailer" href="https://www.youtube.com/watch?v=JY3u7bB7dZk" title="In the future, a spaceship called Serenity is harboring a passenger with a deadly secret. Six rebels on the run. An assassin in pursuit. When the renegade crew of Serenity agrees to hide a fugitive on their ship, they find themselves in an awesome action-packed battle between the relentless military might of a totalitarian regime who will destroy anything - or anyone - to get the girl back and the bloodthirsty creatures who roam the uncharted areas of space. But, the greatest danger of all may be on their ship.">Watch Trailer</a></p>
           </div>
         </li>
 
       </ul>
     </div>
+
+    <div id="footy">&copy; Josh Rincon. Made with love and beer.</div>
+
   </div>
-  <span id="responsiveFlag"></span>
+  <span id="responsiveFlag"></span>  
 </body>  
 </html>

@@ -283,10 +283,10 @@ img.mfp-img {
   width: 100%;
   cursor: auto; }
 
-.mfp-title {
+.mfp-title {  
   text-align: left;
   line-height: 18px;
-  color: #f3f3f3;
+  color: #ffffff;
   word-wrap: break-word;
   padding-right: 36px; }
 
