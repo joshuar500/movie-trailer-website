@@ -34,7 +34,7 @@ em {
 }
 
 body {
-	background: #660000 url("file:///D:/workspace/movie-trailer-website/images/movie-chair.jpg") no-repeat fixed center;
+	background: #660000 url("images/movie-chair.jpg") no-repeat fixed center;
 	background-size: cover;
 	font-family: 'Georgia', 'Arial', 
 	sans-serif;
